@@ -1,69 +1,64 @@
-import Image from "next/image";
+import { profile } from "@/content/profile";
+import { Rule } from "@/components/ui/Rule";
+import { Tag } from "@/components/ui/Tag";
+import { Button } from "@/components/ui/Button";
+import { Stamp } from "@/components/ui/Stamp";
+import { Kicker } from "@/components/ui/Kicker";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main
+      id="main-content"
+      className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-12 py-8 flex flex-col gap-8"
+    >
+      {/* Top Meta Header Banner */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-xs font-mono tracking-widest text-graphite gap-2 border-b border-rule/30 pb-2">
+        <span>VOL. 01 · ISSUE 042</span>
+        <span>MUMBAI, INDIA</span>
+        <span>THE DAILY EDITORIAL</span>
+      </div>
+
+      {/* Main Title Masthead */}
+      <header className="text-center pt-2 pb-4">
+        <h1 className="headline-masthead text-ink tracking-tighter">
+          {profile.newspaperName}
+        </h1>
+        <p className="font-mono text-xs sm:text-sm tracking-[0.25em] text-graphite uppercase mt-2">
+          {profile.role} · {profile.city}, {profile.country}
+        </p>
+      </header>
+
+      <Rule variant="double" />
+
+      {/* Hero Preview Block */}
+      <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start py-6">
+        <div className="lg:col-span-8 flex flex-col gap-6">
+          <Kicker number="NO. 01">FRONT PAGE DISPATCH</Kicker>
+          <h2 className="headline-xl text-ink leading-tight">
+            {profile.heroHeadline}
+          </h2>
+          <p className="font-editorial-body text-ink/90 text-lg sm:text-xl drop-cap max-w-3xl">
+            {profile.heroStandfirst}
           </p>
+
+          <div className="flex flex-wrap gap-3 items-center pt-2">
+            <Button variant="primary">Read the Stories ↓</Button>
+            <Button variant="outline">The Print Edition (Resume)</Button>
+            <Tag variant="press-red">{profile.availability}</Tag>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="lg:col-span-4 flex flex-col items-center lg:items-end gap-4 p-6 border border-rule/30 bg-ink/[0.02]">
+          <Stamp variant="red" label="CERTIFIED ENG" sublabel="VERIFIED" rotation={4} />
+          <div className="text-center lg:text-right font-mono text-xs text-graphite space-y-1">
+            <p>DISPATCH DESK</p>
+            <p className="text-ink font-semibold">{profile.email}</p>
+            <p>PHASE 1 FOUNDATION COMPLETE</p>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      <Rule variant="thick" />
+    </main>
   );
 }
