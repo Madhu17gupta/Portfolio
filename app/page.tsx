@@ -3,33 +3,7 @@ import portrait from "@/public/m2.jpeg";
 import { site } from "@/content/site";
 import { getGitHubContributions } from "@/lib/github";
 import ProjectStory from "@/components/ProjectStory";
-
-const stackGroups = [
-  {
-    number: "01",
-    title: "Frontend",
-    description: "Interfaces that look considered and work across screen sizes.",
-    tools: ["React", "Next.js", "TypeScript", "JavaScript", "HTML & CSS"],
-  },
-  {
-    number: "02",
-    title: "Styling & UI",
-    description: "Clear layouts, reusable components, and responsive details.",
-    tools: ["Tailwind CSS", "Responsive design", "Component systems", "Accessibility"],
-  },
-  {
-    number: "03",
-    title: "Backend & data",
-    description: "The APIs and data layer behind useful web experiences.",
-    tools: ["Node.js", "Express", "REST APIs", "MongoDB", "Firebase"],
-  },
-  {
-    number: "04",
-    title: "Workflow",
-    description: "Tools for building, iterating, and sharing work.",
-    tools: ["Git", "GitHub", "Vite", "Deployment"],
-  },
-];
+import TechStack from "@/components/TechStack";
 
 const experience = [
   {
@@ -234,15 +208,7 @@ export default async function Home() {
             title="The tools behind the work."
             description="A practical toolkit for creating modern, responsive web applications."
           />
-          <div className="stack-list">
-            {stackGroups.map((group) => (
-              <div className="stack-row" key={group.number}>
-                <span className="stack-number">{group.number}</span>
-                <div className="stack-heading"><h3>{group.title}</h3><p>{group.description}</p></div>
-                <div className="stack-tags">{group.tools.map((tool) => <span key={tool}>{tool}</span>)}</div>
-              </div>
-            ))}
-          </div>
+          <TechStack />
         </div>
       </section>
 
