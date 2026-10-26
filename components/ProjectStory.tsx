@@ -3,13 +3,13 @@
 import { useRef } from "react";
 import Image, { StaticImageData } from "next/image";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
-import { getLenis } from "@/lib/lenis";
 import {
   retailRocketsIntro,
   storyProjects,
   StoryProject,
 } from "@/content/retail-rockets";
 import retailRocketsShot from "@/public/projects/retailrockets-site.jpg";
+import launchpadConcept from "@/public/projects/launchpad-concept.webp";
 
 /** Screenshots of the real sites, shown behind the live preview frame. */
 const shots: Record<string, { src: StaticImageData; alt: string }> = {
@@ -19,28 +19,23 @@ const shots: Record<string, { src: StaticImageData; alt: string }> = {
   },
 };
 
-/** LaunchPad is a desktop product, so there is no URL to preview. */
+/** A concept visual for the desktop product, clearly identified in the frame. */
 function LaunchPadVisual() {
   return (
-    <div className="browser appshot">
+    <div className="browser appshot launchpad-shot">
       <div className="browser-bar">
         <i /><i /><i />
-        <span className="browser-url">LaunchPad · Shelf label preview</span>
+        <span className="browser-url">LaunchPad · Retail operations</span>
       </div>
       <div className="browser-frame">
-        <div className="mock-label">
-          <span className="mock-label-top">AISLE 04 · SHELF B</span>
-          <strong>Basmati Rice 5 kg</strong>
-          <div className="mock-price">
-            <sup>₹</sup>649<sub>.00</sub>
-          </div>
-          <div className="mock-barcode" aria-hidden="true">
-            {Array.from({ length: 34 }).map((_, i) => (
-              <i key={i} style={{ width: `${(i % 4) + 1}px` }} />
-            ))}
-          </div>
-          <span className="mock-sku">8901234 567890</span>
-        </div>
+        <Image
+          src={launchpadConcept}
+          alt="Illustrative LaunchPad retail operations dashboard with label print queue, stock refill suggestions, and ERP status"
+          sizes="(max-width: 1179px) 92vw, 46vw"
+          placeholder="blur"
+          loading="eager"
+        />
+        <span className="concept-badge">Concept visual</span>
       </div>
     </div>
   );
@@ -174,24 +169,15 @@ export default function ProjectStory() {
         {
           // Must mirror the cinematic media query in globals.css.
           cinematic:
-            "(min-width: 1024px) and (min-height: 460px) and (prefers-reduced-motion: no-preference)",
+            "(min-width: 1180px) and (min-height: 820px) and (prefers-reduced-motion: no-preference)",
           plain:
-            "(max-width: 1023px), (max-height: 459px), (prefers-reduced-motion: reduce)",
+            "(max-width: 1179px), (max-height: 819px), (prefers-reduced-motion: reduce)",
         },
         (context) => {
           const { cinematic } = context.conditions as { cinematic: boolean };
 
           if (!cinematic) {
             root.current?.classList.remove("cine-armed");
-            panels.forEach((panel) => {
-              gsap.from(panel.querySelectorAll(".cine-reveal"), {
-                y: 44,
-                autoAlpha: 0,
-                duration: 0.7,
-                stagger: 0.07,
-                scrollTrigger: { trigger: panel, start: "top 80%" },
-              });
-            });
             return;
           }
 
@@ -199,56 +185,32 @@ export default function ProjectStory() {
           // so the section stays readable if the script never arrives.
           root.current?.classList.add("cine-armed");
 
-          // One scrubbed timeline cuts between the projects: each one flies in
-          // from its own side and angle while the backdrop takes its colour.
-          // Every project owns STEP units: it flies in over [at, at+1], then
-          // rests over [at+1, at+2] until the next one pushes it out. The snap
-          // stops sit at the start of each rest, so a scroll always parks on a
-          // fully arrived project and nothing drifts away on its own.
-          const STEP = 2;
-          const stops = storyProjects
-            .map((_, i) => (i * STEP + 1) / (total * STEP))
-            .concat(1);
-
+          // Each project gets one viewport of scroll. Transitions overlap
+          // near the boundary while the current panel remains readable.
           const tl = gsap.timeline({
             defaults: { ease: "power2.inOut" },
             scrollTrigger: {
               trigger: scroller.current,
-              start: "top top",
+              start: "top top+=78",
               end: "bottom bottom",
-              scrub: 1.2,
+              scrub: true,
               invalidateOnRefresh: true,
-              // One scroll gesture settles on the next project rather than
-              // drifting between two of them.
-              snap: {
-                snapTo: stops,
-                duration: { min: 0.6, max: 1.5 },
-                delay: 0.06,
-                ease: "power2.inOut",
-                directional: true,
-                onStart: () => getLenis()?.stop(),
-                onComplete: () => getLenis()?.start(),
-                onInterrupt: () => getLenis()?.start(),
-              },
               onUpdate: (self) => setHead(self.progress),
               onRefresh: (self) => setHead(self.progress),
             },
           });
 
-          // Hold the timeline's length at total * STEP so the stops above stay
-          // exact no matter what the per-panel tweens add up to.
-          tl.to({}, { duration: 0.01 }, total * STEP - 0.01);
+          tl.to({}, { duration: 0.01 }, total - 0.01);
 
           panels.forEach((panel, i) => {
             const project = storyProjects[i];
-            const copy = panel.querySelector(".cine-copy");
             const art = panel.querySelector(".cine-visual");
-            const at = i * STEP;
+            const at = i;
 
             tl.to(
               bg.current,
-              { backgroundColor: project.backdrop, duration: 1 },
-              Math.max(0, at - 0.5)
+              { backgroundColor: project.backdrop, duration: 0.45 },
+              Math.max(0, at - 0.2)
             );
 
             if (i === 0) {
@@ -257,99 +219,28 @@ export default function ProjectStory() {
               tl.fromTo(
                 panel,
                 {
-                  autoAlpha: 0,
-                  xPercent: project.enter.x,
-                  yPercent: project.enter.y,
-                  rotation: project.enter.rotate,
-                  scale: project.enter.scale,
+                  autoAlpha: 1,
+                  xPercent: i % 2 ? 100 : -100,
                 },
                 {
                   autoAlpha: 1,
                   xPercent: 0,
-                  yPercent: 0,
-                  rotation: 0,
-                  scale: 1,
-                  duration: 1,
-                  ease: "power3.out",
+                  duration: 0.45,
+                  immediateRender: false,
                 },
-                at
+                at - 0.2
               );
-              // Copy and artwork arrive from opposite directions for depth.
-              tl.from(
-                copy,
-                { xPercent: project.enter.x > 0 ? 24 : -24, autoAlpha: 0, duration: 0.9 },
-                at + 0.1
-              );
-              tl.from(
-                art,
-                {
-                  xPercent: project.enter.x > 0 ? -20 : 20,
-                  rotation: -project.enter.rotate,
-                  autoAlpha: 0,
-                  duration: 0.9,
-                },
-                at + 0.15
-              );
+              tl.set(panels[i - 1], { autoAlpha: 0 }, at + 0.25);
             }
 
-            // Keep the scene alive between cuts: the artwork and the ghost
-            // numeral drift at different rates for the whole time on screen.
-            tl.to(art, { yPercent: -7, duration: 2, ease: "none" }, at);
+            tl.to(art, { yPercent: -3, duration: 1, ease: "none" }, at);
             tl.to(
               panel.querySelector(".cine-ghost"),
-              { xPercent: i % 2 ? 14 : -14, yPercent: -5, duration: 2, ease: "none" },
+              { xPercent: i % 2 ? 8 : -8, yPercent: -3, duration: 1, ease: "none" },
               at
             );
 
-            if (i < total - 1) {
-              tl.to(
-                panel,
-                {
-                  autoAlpha: 0,
-                  xPercent: project.exit.x,
-                  yPercent: project.exit.y,
-                  rotation: project.exit.rotate,
-                  scale: project.exit.scale,
-                  duration: 1,
-                  ease: "power3.in",
-                },
-                // Leaves exactly as the next project arrives, never before.
-                at + STEP
-              );
-            }
           });
-
-          // Parked on a project, nothing is scrub-driven any more, so each
-          // panel keeps a slow ambient loop of its own: the preview window
-          // floats and the numeral breathes until the next scroll.
-          const idle = panels.flatMap((panel, i) => [
-            gsap.to(panel.querySelector(".browser"), {
-              y: -12,
-              duration: 3.4,
-              ease: "sine.inOut",
-              repeat: -1,
-              yoyo: true,
-              delay: i * 0.18,
-            }),
-            gsap.to(panel.querySelector(".cine-ghost"), {
-              opacity: 0.17,
-              duration: 4.2,
-              ease: "sine.inOut",
-              repeat: -1,
-              yoyo: true,
-              delay: i * 0.22,
-            }),
-          ]);
-
-          // Only loop while the section is on screen.
-          ScrollTrigger.create({
-            trigger: scroller.current,
-            start: "top bottom",
-            end: "bottom top",
-            onToggle: (self) =>
-              idle.forEach((tween) => (self.isActive ? tween.resume() : tween.pause())),
-          });
-
           ScrollTrigger.refresh();
         }
       );
