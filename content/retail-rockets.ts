@@ -10,8 +10,16 @@ export interface StoryProject {
   value: string;
   role: string;
   live?: { label: string; url: string };
-  hosting?: string;
-  tone: string;
+  note?: string;
+  /** Visual identity used for the cinematic background shift. */
+  accent: string;
+  backdrop: string;
+  glow: string;
+  /** Where this panel flies in from, and where it leaves to. */
+  enter: { x: number; y: number; rotate: number; scale: number };
+  exit: { x: number; y: number; rotate: number; scale: number };
+  /** Right-hand visual: a live iframe of the real site, a screenshot, or a product visual. */
+  visual: "launchpad" | "vault" | "review" | "image" | "iframe";
 }
 
 export const retailRocketsIntro = {
@@ -33,18 +41,21 @@ export const storyProjects: StoryProject[] = [
     features: [
       "Shelf label printing with custom templates, barcodes and thermal auto-cut",
       "Stock refill with warehouse-wise filters that show exactly what goes to the shelf",
-      "Repacking instructions planned automatically from consumption-based allocation",
+      "Repacking planned automatically from consumption-based allocation",
       "Supplier orders comparing current vs. previous year, exported as ready-to-send PDFs",
-      "Sales dashboard for an instant view of store performance",
-      "Role-based menus and permissions for every user",
+      "Sales dashboard and role-based access for every user",
     ],
     stack: ["Electron", "React", "Node.js", "Oracle", "SQL Server", "SQLite"],
     value:
       "Fast, accurate label printing, data-driven refills and repacking, and complete store operations in one tool.",
     role: "Product concept, solution architecture, module design and delivery",
-    hosting:
-      "3-layer scale-out: a RETAIL ROCKETS cloud server for licensing and auto-upgrades, a dedicated LaunchPad server at each client, and store PCs reading live ERP data.",
-    tone: "amber",
+    note: "3-layer architecture: a RETAIL ROCKETS cloud server for licensing and auto-upgrades, a dedicated LaunchPad server at each client, and store PCs on the client's own ERP.",
+    accent: "#f0a365",
+    backdrop: "#2a1a0e",
+    glow: "rgba(240,163,101,.26)",
+    enter: { x: 0, y: 0, rotate: 0, scale: 1 },
+    exit: { x: -58, y: -16, rotate: -9, scale: 0.82 },
+    visual: "launchpad",
   },
   {
     id: "blackbox",
@@ -56,18 +67,22 @@ export const storyProjects: StoryProject[] = [
       "A secure, centralised vault where teams store and share passwords, server logins and system credentials with complete control and accountability.",
     features: [
       "AES-256 encryption for every stored credential",
-      "Category management to organise credentials by system, client or purpose",
+      "Category management by system, client or purpose",
       "Controlled sharing between team members, managed by the admin",
       "Full audit logs recording every change with old and new values, user and time",
-      "Mobile and web access for the team anywhere",
-      "Complete user manuals and setup guides included",
+      "Mobile and web access, with complete user manuals and setup guides",
     ],
     stack: ["Flutter", "ASP.NET Core", "SQL Server"],
     value:
       "One secure home for all company credentials with bank-grade encryption and full accountability.",
     role: "Product concept, security design, development and documentation",
     live: { label: "bb.retailrockets.in", url: "https://bb.retailrockets.in" },
-    tone: "slate",
+    accent: "#8fb7d6",
+    backdrop: "#0d1b2a",
+    glow: "rgba(143,183,214,.22)",
+    enter: { x: 72, y: 34, rotate: 10, scale: 1.12 },
+    exit: { x: 12, y: -78, rotate: -7, scale: 0.86 },
+    visual: "vault",
   },
   {
     id: "servicerr",
@@ -92,8 +107,13 @@ export const storyProjects: StoryProject[] = [
       label: "review.retailrockets.in",
       url: "https://review.retailrockets.in",
     },
-    hosting: "Running live with a food retail client.",
-    tone: "teal",
+    note: "Running live with a food retail client.",
+    accent: "#63cfbb",
+    backdrop: "#07262a",
+    glow: "rgba(99,207,187,.22)",
+    enter: { x: -84, y: 28, rotate: -11, scale: 0.92 },
+    exit: { x: 80, y: 10, rotate: 8, scale: 0.88 },
+    visual: "review",
   },
   {
     id: "retailrockets",
@@ -115,7 +135,12 @@ export const storyProjects: StoryProject[] = [
       "A strong brand platform that builds trust and connects consulting expertise with products.",
     role: "Brand positioning, content structure and website delivery",
     live: { label: "retailrockets.in", url: "https://retailrockets.in" },
-    tone: "rust",
+    accent: "#7f8bf5",
+    backdrop: "#15174a",
+    glow: "rgba(127,139,245,.24)",
+    enter: { x: 18, y: -86, rotate: 7, scale: 1.14 },
+    exit: { x: -74, y: 26, rotate: -10, scale: 0.84 },
+    visual: "image",
   },
   {
     id: "spazio",
@@ -127,11 +152,10 @@ export const storyProjects: StoryProject[] = [
       "A premium website for SPAZIO, an architectural and interior design studio with 20+ years of experience, built around its tagline “Spaces Worth Creating.”",
     features: [
       "Segment-wise portfolio: residential, commercial, industrial, turnkey, modern living and office interiors",
-      "Featured projects with a detailed view for each — flat interiors and landscape design",
+      "Featured projects with a detailed view — flat interiors and landscape design",
       "Credibility stats upfront: 500+ projects, 200+ on-site executions, 20+ years",
       "Lead capture through “Plan Your Space”, WhatsApp chat, email and newsletter signup",
-      "Service coverage across Mumbai, Pune and Pan India",
-      "Fully responsive Home, About, Services, Gallery and Contact pages",
+      "Responsive Home, About, Services, Gallery and Contact pages, hosted on Netlify",
     ],
     stack: ["React", "Responsive design", "Netlify"],
     value:
@@ -141,7 +165,11 @@ export const storyProjects: StoryProject[] = [
       label: "spaziointeriors.netlify.app",
       url: "https://spaziointeriors.netlify.app",
     },
-    hosting: "Hosted on Netlify.",
-    tone: "green",
+    accent: "#c9a26b",
+    backdrop: "#241c13",
+    glow: "rgba(201,162,107,.24)",
+    enter: { x: 64, y: 62, rotate: 8, scale: 0.9 },
+    exit: { x: 0, y: -40, rotate: -4, scale: 0.94 },
+    visual: "iframe",
   },
 ];

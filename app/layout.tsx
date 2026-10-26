@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Newsreader, JetBrains_Mono, Manrope } from "next/font/google";
 import "./globals.css";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -50,9 +51,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${newsreader.variable} ${jetbrainsMono.variable} ${manrope.variable} scroll-smooth`}
+      className={`${fraunces.variable} ${newsreader.variable} ${jetbrainsMono.variable} ${manrope.variable}`}
     >
       <body>
+        <SmoothScroll />
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>

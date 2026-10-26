@@ -1,36 +1,8 @@
 import Image from "next/image";
 import portrait from "@/public/m2.jpeg";
-import dashboardShot from "@/public/projects/productivity-tasks.png";
-import spazioPhoto from "@/public/projects/spazio-gallery.webp";
 import { site } from "@/content/site";
 import { getGitHubContributions } from "@/lib/github";
 import ProjectStory from "@/components/ProjectStory";
-
-const projects = [
-  {
-    number: "01",
-    type: "Website / frontend",
-    title: "Spazio",
-    description:
-      "An image-led website exploring spaces and stays through a visual, responsive browsing experience.",
-    stack: ["React", "JavaScript", "Vite", "CSS"],
-    source: site.github + "/spazio-website",
-    image: spazioPhoto,
-    alt: "Property photograph used in the Spazio website",
-  },
-  {
-    number: "02",
-    type: "Web app / productivity",
-    title: "Productivity Dashboard",
-    description:
-      "A task dashboard with filtering, priorities, progress tracking, and a layout designed for everyday use.",
-    stack: ["React", "TypeScript", "Tailwind CSS", "Local storage"],
-    source: site.github + "/Productivity-Dashboard",
-    live: "https://productivity-dashboard-self-eight.vercel.app",
-    image: dashboardShot,
-    alt: "Task list screen from the Productivity Dashboard project",
-  },
-];
 
 const stackGroups = [
   {
@@ -218,49 +190,11 @@ export default async function Home() {
             index="02"
             label="SELECTED PROJECTS"
             title="Things I&apos;ve built."
-            description="A closer look at public work, from an image-led website to a practical planning tool."
+            description="Products and digital builds delivered at RETAIL ROCKETS — scroll through the story of each one."
           />
-          <div className="projects-list">
-            {projects.map((project) => (
-              <article className="project-card" key={project.number}>
-                <div className={"project-media project-media-" + project.number}>
-                  <Image src={project.image} alt={project.alt} sizes="(max-width: 800px) 100vw, 55vw" />
-                  <span className="project-count">{project.number} / SELECTED WORK</span>
-                </div>
-                <div className="project-info">
-                  <span className="project-type">{project.type}</span>
-                  <h3>{project.title}</h3>
-                  <p>{project.description}</p>
-                  <div className="project-stack">
-                    {project.stack.map((tool) => <span key={tool}>{tool}</span>)}
-                  </div>
-                  <div className="project-actions">
-                    <a href={project.source} target="_blank" rel="noreferrer">View code <ArrowIcon /></a>
-                    {project.live && <a href={project.live} target="_blank" rel="noreferrer">Live project <ArrowIcon /></a>}
-                  </div>
-                </div>
-              </article>
-            ))}
-            <article className="portfolio-project">
-              <div className="portfolio-project-copy">
-                <span className="project-type">03 / PERSONAL PROJECT</span>
-                <h3>This portfolio is a project, too.</h3>
-                <p>A place to bring design, development, and a little personality together. Built with Next.js and TypeScript.</p>
-                <a href={site.github + "/Portfolio"} target="_blank" rel="noreferrer">Explore the repository <ArrowIcon /></a>
-              </div>
-              <div className="portfolio-code" aria-label="Code-themed illustration of this portfolio">
-                <div className="code-top"><span /><span /><span /><strong>portfolio.tsx</strong></div>
-                <pre>{`const madhu = {
-  focus: ["design", "code"],
-  builds: "for people",
-  status: "always learning"
-};
-
-export default madhu;`}</pre>
-              </div>
-            </article>
-          </div>
-          <ProjectStory />
+        </div>
+        <ProjectStory />
+        <div className="section-container">
           <a className="all-projects-link" href={site.github + "?tab=repositories"} target="_blank" rel="noreferrer">
             Explore all GitHub repositories <ArrowIcon />
           </a>
