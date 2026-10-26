@@ -4,6 +4,7 @@ import dashboardShot from "@/public/projects/productivity-tasks.png";
 import spazioPhoto from "@/public/projects/spazio-gallery.webp";
 import { site } from "@/content/site";
 import { getGitHubContributions } from "@/lib/github";
+import ProjectStory from "@/components/ProjectStory";
 
 const projects = [
   {
@@ -259,6 +260,7 @@ export default madhu;`}</pre>
               </div>
             </article>
           </div>
+          <ProjectStory />
           <a className="all-projects-link" href={site.github + "?tab=repositories"} target="_blank" rel="noreferrer">
             Explore all GitHub repositories <ArrowIcon />
           </a>
