@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Fraunces, Newsreader, JetBrains_Mono } from "next/font/google";
+import { Fraunces, Newsreader, JetBrains_Mono, Manrope } from "next/font/google";
 import "./globals.css";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -24,6 +25,12 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ["400", "500", "700"],
 });
 
+const manrope = Manrope({
+  variable: "--font-manrope",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://portfolio-madhu-1ae8.vercel.app"),
   title: "Madhu Gupta | Full-Stack Developer",
@@ -44,9 +51,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${newsreader.variable} ${jetbrainsMono.variable} scroll-smooth`}
+      className={`${fraunces.variable} ${newsreader.variable} ${jetbrainsMono.variable} ${manrope.variable}`}
     >
       <body>
+        <SmoothScroll />
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
