@@ -193,7 +193,7 @@ button { font: inherit; }
    Base styles are the stacked fallback (mobile, reduced motion, no JS).
    The pinned cinema only switches on once the component adds .cine-armed. */
 .cine { position: relative; }
-.cine-intro { max-width: 820px; margin-bottom: 40px; }
+.cine-intro { max-width: 820px; margin-bottom: 32px; }
 .cine-eyebrow {
   font-family: var(--font-jetbrains), monospace;
   font-size: 10px; font-weight: 700; letter-spacing: .18em; color: var(--accent);
@@ -210,12 +210,15 @@ button { font: inherit; }
 .cine-panel {
   position: relative; overflow: hidden;
   display: grid; gap: 26px; align-items: center;
-  padding: 36px 28px 34px; border-radius: 20px;
+  padding: clamp(24px, 3vw, 40px); border-radius: 20px;
   background: var(--backdrop, #16202a);
 }
 .cine-panel::before {
   content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
   background: radial-gradient(52% 62% at 72% 42%, var(--glow) 0%, transparent 68%);
+}
+@media (min-width: 900px) {
+  .cine-panel { grid-template-columns: minmax(0, 1fr) minmax(0, .95fr); gap: clamp(24px, 4vw, 56px); }
 }
 .cine-ghost {
   position: absolute; right: 18px; bottom: -34px; z-index: 0; pointer-events: none;
@@ -317,24 +320,16 @@ a.browser:hover .browser-open { opacity: 1; transform: translateY(0); }
   font-size: 10px; letter-spacing: .16em;
 }
 
-/* LaunchPad is a desktop product, so it shows its printed label instead */
+/* Product visuals */
 .appshot .browser-frame { display: grid; place-items: center; padding: 26px; }
-.mock-label {
-  width: min(330px, 100%); padding: 20px; border-radius: 10px;
-  background: #fdfdf8; color: #15202a; box-shadow: 0 18px 34px rgba(0,0,0,.34);
+.launchpad-shot .browser-frame { display: block; padding: 0; }
+.concept-badge {
+  position: absolute; right: 12px; bottom: 12px; z-index: 2;
+  padding: 7px 10px; border: 1px solid rgba(255,255,255,.22);
+  border-radius: 6px; background: rgba(9,16,23,.84);
+  color: white; font-family: var(--font-jetbrains), monospace;
+  font-size: 9px; font-weight: 700; letter-spacing: .04em;
 }
-.mock-label-top {
-  font-family: var(--font-jetbrains), monospace; font-size: 9px;
-  font-weight: 700; letter-spacing: .16em; color: #7b8a93;
-}
-.mock-label strong { display: block; margin: 8px 0 6px; font-size: 19px; letter-spacing: -.03em; }
-.mock-price { font-family: var(--font-fraunces), serif; font-size: 44px; font-weight: 900; line-height: 1; letter-spacing: -.05em; }
-.mock-price sup { font-size: 19px; vertical-align: super; }
-.mock-price sub { font-size: 16px; vertical-align: baseline; }
-.mock-barcode { display: flex; align-items: end; gap: 2px; height: 40px; margin: 14px 0 7px; }
-.mock-barcode i { display: block; height: 100%; background: #15202a; }
-.mock-sku { font-family: var(--font-jetbrains), monospace; font-size: 10px; letter-spacing: .3em; color: #51606a; }
-
 .appshot .browser-frame.mock-stack { display: grid; align-content: center; gap: 14px; padding: 24px; }
 .appshot .browser-frame.mock-review {
   display: grid; grid-template-columns: auto 1fr; align-items: center;
@@ -376,10 +371,10 @@ a.browser:hover .browser-open { opacity: 1; transform: translateY(0); }
 .mock-bars b { display: block; height: 100%; border-radius: 3px; background: var(--accent); }
 
 /* Cinematic mode */
-@media (min-width: 1024px) and (min-height: 460px) and (prefers-reduced-motion: no-preference) {
-  .cine-armed .cine-scroll { height: 560vh; }
+@media (min-width: 1180px) and (min-height: 820px) and (prefers-reduced-motion: no-preference) {
+  .cine-armed .cine-scroll { height: 600svh; }
   .cine-armed .cine-stage {
-    position: sticky; top: 0; height: 100vh; min-height: 560px;
+    position: sticky; top: 78px; height: calc(100svh - 78px);
     overflow: hidden; isolation: isolate;
   }
   .cine-armed .cine-bg {
@@ -411,7 +406,7 @@ a.browser:hover .browser-open { opacity: 1; transform: translateY(0); }
   .cine-armed .cine-panel {
     position: absolute; inset: 0; width: min(1460px, 100%); margin-inline: auto;
     grid-template-columns: 1.02fr .98fr; gap: clamp(30px, 3.6vw, 64px);
-    padding: 86px max(40px, 5vw) 48px; border-radius: 0; background: none;
+    padding: 86px max(40px, 5vw) 40px; border-radius: 0; background: var(--backdrop);
     opacity: 0; visibility: hidden; will-change: transform, opacity;
   }
   .cine-armed .cine-panel:first-child { opacity: 1; visibility: visible; }
@@ -421,7 +416,7 @@ a.browser:hover .browser-open { opacity: 1; transform: translateY(0); }
 }
 
 /* 13" laptops and other short viewports: same cinema, tighter type */
-@media (min-width: 1024px) and (max-height: 880px) and (prefers-reduced-motion: no-preference) {
+@media (min-width: 1180px) and (min-height: 820px) and (max-height: 880px) and (prefers-reduced-motion: no-preference) {
   .cine-armed .cine-panel { padding: 68px max(28px, 3.5vw) 34px; gap: clamp(24px, 2.6vw, 44px); }
   .cine-armed .cine-head { padding: 16px max(28px, 3.5vw); }
   .cine-armed .cine-count > span { font-size: 18px; }
@@ -442,10 +437,7 @@ a.browser:hover .browser-open { opacity: 1; transform: translateY(0); }
   .cine-armed .browser { max-width: 470px; }
   .cine-armed .browser-frame { --frame-scale: .326; }
   .cine-armed .appshot .browser-frame { padding: 18px; }
-  .cine-armed .mock-label { width: min(260px, 100%); padding: 15px; }
-  .cine-armed .mock-label strong { font-size: 16px; }
-  .cine-armed .mock-price { font-size: 34px; }
-  .cine-armed .mock-barcode { height: 30px; margin: 10px 0 5px; }
+  .cine-armed .launchpad-shot .browser-frame { padding: 0; }
   .cine-armed .mock-qr { grid-template-columns: repeat(7, 11px); padding: 9px; }
   .cine-armed .mock-qr i { width: 11px; height: 11px; }
   .cine-armed .mock-rows li { padding: 8px 11px; font-size: 10px; }
@@ -486,10 +478,6 @@ a.browser:hover .browser-open { opacity: 1; transform: translateY(0); }
   .cine-armed .browser-bar { padding: 8px 11px; }
   .cine-armed .browser-frame { --frame-scale: .25; }
   .cine-armed .appshot .browser-frame { padding: 12px; }
-  .cine-armed .mock-label { width: min(210px, 100%); padding: 12px; }
-  .cine-armed .mock-label strong { font-size: 13px; }
-  .cine-armed .mock-price { font-size: 26px; }
-  .cine-armed .mock-barcode { height: 22px; margin: 7px 0 4px; }
   .cine-armed .mock-rows li { padding: 6px 9px; font-size: 9px; }
   .cine-armed .mock-qr { grid-template-columns: repeat(7, 9px); padding: 7px; }
   .cine-armed .mock-qr i { width: 9px; height: 9px; }
@@ -692,6 +680,7 @@ a.browser:hover .browser-open { opacity: 1; transform: translateY(0); }
 
 @media (max-width: 1050px) {
   .nav-container, .section-container { width: min(100% - 56px, 1180px); }
+  .cine-panels { width: min(100% - 56px, 1180px); }
   .site-nav { gap: 20px; }
   .hero { gap: 5%; }
   .hero h1 { font-size: clamp(44px, 5vw, 67px); }
@@ -710,8 +699,19 @@ a.browser:hover .browser-open { opacity: 1; transform: translateY(0); }
   .about-layout { gap: 5%; }
   .contact-deco { display: none; }
 }
+@media (max-width: 899px) {
+  .cine-visual { order: -1; }
+}
 @media (max-width: 600px) {
   .nav-container, .section-container { width: calc(100% - 40px); }
+  .cine-panels { width: calc(100% - 40px); }
+  .cine-intro { margin-bottom: 24px; }
+  .cine-panel { display: flex; flex-direction: column; align-items: stretch; gap: 24px; }
+  .cine-visual { margin: -24px -24px 0; }
+  .cine-visual .browser { max-width: none; border-radius: 20px 20px 0 0; }
+  .cine-copy h4 { font-size: clamp(32px, 9vw, 44px); }
+  .cine-features { gap: 8px; }
+  .cine-stack { margin-block: 18px; }
   .nav-container { gap: 12px; }
   .brand-name { font-size: 14px; }
   .nav-cta { padding: 10px 12px; gap: 8px; }
