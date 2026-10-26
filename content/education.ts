@@ -18,3 +18,4 @@ export const educationList: Education[] = [
       "State-level Math Olympiad Finalist; founded school computer science society.",
   },
 ];
+
