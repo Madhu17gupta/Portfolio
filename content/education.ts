@@ -19,4 +19,3 @@ export const educationList: Education[] = [
   },
 ];
 
-#1
