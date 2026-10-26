@@ -25,9 +25,15 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "The Madhu Gupta Daily — Editorial Portfolio & Case Studies",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://portfolio-madhu-1ae8.vercel.app"),
+  title: "Madhu Gupta | Full-Stack Developer",
   description:
-    "Personal engineering portfolio of Madhu Gupta, Full-Stack Software Developer based in Mumbai. Styled as a printed broadsheet newspaper.",
+    "Explore Madhu Gupta's projects, web development skills, and live GitHub contributions.",
+  openGraph: {
+    title: "Madhu Gupta | Full-Stack Developer",
+    description: "Projects, ideas, and code from Madhu Gupta.",
+    images: ["/m2.jpeg"],
+  },
 };
 
 export default function RootLayout({
@@ -40,9 +46,9 @@ export default function RootLayout({
       lang="en"
       className={`${fraunces.variable} ${newsreader.variable} ${jetbrainsMono.variable} scroll-smooth`}
     >
-      <body className="min-h-screen bg-paper text-ink selection:bg-press-red selection:text-paper">
+      <body>
         <a href="#main-content" className="skip-link">
-          Skip to main editorial content ↓
+          Skip to main content
         </a>
         {children}
       </body>
