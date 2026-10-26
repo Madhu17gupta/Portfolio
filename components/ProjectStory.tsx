@@ -174,9 +174,9 @@ export default function ProjectStory() {
         {
           // Must mirror the cinematic media query in globals.css.
           cinematic:
-            "(min-width: 1024px) and (min-height: 600px) and (prefers-reduced-motion: no-preference)",
+            "(min-width: 1024px) and (min-height: 460px) and (prefers-reduced-motion: no-preference)",
           plain:
-            "(max-width: 1023px), (max-height: 599px), (prefers-reduced-motion: reduce)",
+            "(max-width: 1023px), (max-height: 459px), (prefers-reduced-motion: reduce)",
         },
         (context) => {
           const { cinematic } = context.conditions as { cinematic: boolean };
